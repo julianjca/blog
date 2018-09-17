@@ -101,6 +101,25 @@ describe('Users', () => {
     });
   });
 
+  describe('/PUT updating a user', () => {
+    it('it should update a user by id', (done) => {
+      const user = {
+        name : "Bobi",
+        email : "bobi@mail.com"
+      };
+      chai.request(server)
+        .put(`/users/${id}`)
+        .send(user)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('msg').eql(`success updating user by id ${id}`);
+          res.body.data.nModified.should.equal(1);
+          res.body.data.ok.should.equal(1);
+          done();
+        });
+    });
+  });
+
   afterEach((done) => { //Before each test we empty the database
     User.remove({}, (err) => {
        done();

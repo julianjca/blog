@@ -95,5 +95,37 @@ module.exports = {
         err : err
       });
     });
+  },
+
+  update : function(req,res){
+    User.findOne({
+      _id : req.params.id
+    })
+    .then(data=>{
+      User.updateOne({
+        email : data.email
+      },{$set: {
+        name : req.body.name || data.name,
+        email : req.body.email || data.email,
+      }})
+      .then(data=>{
+        res.status( 200 ).json({
+        msg : `success updating user by id ${req.params.id}`,
+        data : data
+      });
+      })
+      .catch(err=>{
+        res.status(500).json({
+          msg : "failed updating user",
+          err : err
+        });
+      })
+    })
+    .catch(err=>{
+      res.status(500).json({
+        msg : "failed deleting user",
+        err : err
+      });
+    });
   }
 };
