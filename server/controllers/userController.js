@@ -22,7 +22,6 @@ module.exports = {
   },
 
   login : function(req,res){
-    console.log(req.body)
     User.findOne({
       email : req.body.email
     })
@@ -41,7 +40,7 @@ module.exports = {
           }
           else{
             res.status( 200 ).json({
-              mesg : 'login success',
+              msg : 'login success',
               token : token
             });
           }
@@ -68,7 +67,7 @@ module.exports = {
     User.find({})
     .then(data=>{
       res.status( 200 ).json({
-        mesg : 'success finding users',
+        msg : 'success finding users',
         data : data
       });
     })
