@@ -15,7 +15,8 @@ describe('Users', () => {
   beforeEach(() => {
     User.create({
       name : "Tono",
-
+      email : "tono@mail.com",
+      password : 123456
     })
     .then(data=>{
       //console.log(data);
@@ -24,6 +25,7 @@ describe('Users', () => {
       console.log(err);
     });
   });
+
   describe('/GET showing all users', () => {
     it('it should GET all the users', (done) => {
       chai.request(server)
@@ -37,9 +39,30 @@ describe('Users', () => {
     });
   });
 
-  afterEach((done) => { //Before each test we empty the database
-    User.remove({}, (err) => {
-       done();
+  describe('/POST creating a user', () => {
+    it('it should create a users', (done) => {
+      let user = {
+        name: "Jimmy",
+        email: "jim@mail.com",
+        password: 123456
+    };
+      chai.request(server)
+        .post('/users/register')
+        .send(user)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.data.name.should.equal('Jimmy');
+          res.body.data.email.should.equal('jim@mail.com');
+          res.body.data.email.should.not.equal('123456');
+          done();
+        });
     });
   });
+
+
+  // afterEach((done) => { //Before each test we empty the database
+  //   User.remove({}, (err) => {
+  //      done();
+  //   });
+  // });
 });
