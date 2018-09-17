@@ -59,16 +59,18 @@ module.exports = {
   },
 
   update : function(req,res){
+    console.log(req.body);
     Article.findOne({
       _id : req.params.id
     })
     .then(data=>{
-      User.updateOne({
+      Article.updateOne({
         _id : req.params.id
       },{$set: {
-        title : req.body.title || data.title,
-        body : req.body.body || data.body,
-      }})
+        "title" : req.body.title || data.title ,
+        "body" : req.body.body || data.body,
+      }
+      })
       .then(data=>{
         res.status( 200 ).json({
         msg : `success updating article by id ${req.params.id}`,

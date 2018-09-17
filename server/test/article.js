@@ -18,7 +18,7 @@ chai.use(chaiHttp);
 describe('Articles', () => {
   let id = '';
   let token1 = '';
-  const password = "123456"
+  const password = "123456";
 
   beforeEach((done) => {
     User.create({
@@ -104,53 +104,51 @@ describe('Articles', () => {
         .send(article)
         .set('token', token1)
         .end((err, res) => {
-          // console.log(res);
+          console.log(res.body);
           res.should.have.status(200);
           //check property
-          // res.body.data.should.have.property('name');
-          // res.body.data.should.have.property('email');
-          // res.body.data.should.have.property('password');
-          // res.body.should.have.property('msg').eql('success registering user');
-
-          // //check result
-          // res.body.data.name.should.equal('Jimmy');
-          // res.body.data.email.should.equal('jim@mail.com');
-          // res.body.data.password.should.not.equal('123456');
+          res.body.data.should.have.property('title');
+          res.body.data.should.have.property('body');
+          res.body.data.should.have.property('user');
+          res.body.should.have.property('msg').eql('success adding article');
           done();
         });
     });
   });
 
-  // describe('/DELETE deleting an article', () => {
-  //   it('it should delete an article by id', (done) => {
-  //     chai.request(server)
-  //       .delete(`/articles/${id}`)
-  //       .end((err, res) => {
-  //         res.should.have.status(200);
-  //         res.body.should.have.property('msg').eql(`success deleting user by id ${id}`);
-  //         done();
-  //       });
-  //   });
-  // });
+  describe('/DELETE deleting an article', () => {
+    it('it should delete an article by id', (done) => {
+      chai.request(server)
+        .delete(`/articles/${id}`)
+        .set('token', token1)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('msg').eql(`success deleting article by id ${id}`);
+          done();
+        });
+    });
+  });
 
-  // describe('/PUT updating an article', () => {
-  //   it('it should update an article by id', (done) => {
-  //     const article = {
-  //       title : "Hello",
-  //       body : "Selamat Datang"
-  //     };
-  //     chai.request(server)
-  //       .put(`/articles/${id}`)
-  //       .send(article)
-  //       .end((err, res) => {
-  //         res.should.have.status(200);
-  //         res.body.should.have.property('msg').eql(`success updating user by id ${id}`);
-  //         res.body.data.nModified.should.equal(1);
-  //         res.body.data.ok.should.equal(1);
-  //         done();
-  //       });
-  //   });
-  // });
+  describe('/PUT updating an article', () => {
+    it('it should update an article by id', (done) => {
+      const article = {
+        title : "Helloooo",
+        body : "Selamat Datang 123"
+      };
+      chai.request(server)
+        .put(`/articles/${id}`)
+        .send(article)
+        .set('token', token1)
+        .end((err, res) => {
+          console.log(res.body);
+          res.should.have.status(200);
+          res.body.should.have.property('msg').eql(`success updating article by id ${id}`);
+          res.body.data.nModified.should.equal(1);
+          res.body.data.ok.should.equal(1);
+          done();
+        });
+    });
+  });
 
   afterEach((done) => { //Before each test we empty the database
     Article.remove({}, (err) => {
