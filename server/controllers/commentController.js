@@ -6,8 +6,7 @@ const User = require('../models/user');
 module.exports = {
   create : function(req,res){
     const input = {
-      title : req.body.title,
-      body : req.body.body,
+      comment : req.body.comment,
       user : req.userData.id
     };
     Comment.create(input)
@@ -21,20 +20,20 @@ module.exports = {
       })
       .then(response=>{
         res.status(200).json({
-          msg : "success adding article",
+          msg : "success adding comment",
           data : data
         });
       })
       .catch(err=>{
         res.status(500).json({
-          msg : "failed adding article",
+          msg : "failed adding comment",
           err : err
         });
       });
     })
     .catch(err=>{
       res.status(500).json({
-        msg : "failed adding article",
+        msg : "failed adding comment",
         err : err
       });
     });
@@ -47,13 +46,13 @@ module.exports = {
     .then(data=>{
       data.remove();
       res.status( 200 ).json({
-        msg : `success deleting article by id ${req.params.id}`,
+        msg : `success deleting comment by id ${req.params.id}`,
         data : data
       });
     })
     .catch(err=>{
       res.status(500).json({
-        msg : "failed deleting article",
+        msg : "failed deleting comment",
         err : err
       });
     });
@@ -64,7 +63,7 @@ module.exports = {
       _id : req.params.id
     })
     .then(data=>{
-      User.updateOne({
+      Comment.updateOne({
         _id : req.params.id
       },{$set: {
         title : req.body.title || data.title,
@@ -72,20 +71,20 @@ module.exports = {
       }})
       .then(data=>{
         res.status( 200 ).json({
-        msg : `success updating article by id ${req.params.id}`,
+        msg : `success updating comment by id ${req.params.id}`,
         data : data
       });
       })
       .catch(err=>{
         res.status(500).json({
-          msg : "failed updating article",
+          msg : "failed updating comment",
           err : err
         });
       });
     })
     .catch(err=>{
       res.status(500).json({
-        msg : "failed deleting article",
+        msg : "failed deleting comment",
         err : err
       });
     });
@@ -97,13 +96,13 @@ module.exports = {
     .exec()
     .then(data=>{
       res.status( 200 ).json({
-        msg : 'success finding article',
+        msg : 'success finding comments',
         data : data
       });
     })
     .catch(err=>{
       res.status(500).json({
-        msg : "failed finding article",
+        msg : "failed finding comments",
         err : err
       });
     });

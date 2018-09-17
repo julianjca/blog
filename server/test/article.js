@@ -27,14 +27,11 @@ describe('Articles', () => {
       password : password
     })
     .then(user=>{
-      console.log(user,"====>user1");
       User.findOne({
         _id : user._id
       })
       .then(user2=>{
-        console.log(user2,"====>user2");
         const isPasswordValid = bcrypt.compareSync(password,user2.password);
-        console.log(isPasswordValid,"====>valid gatuh");
 
         if(isPasswordValid){
           jwt.sign({

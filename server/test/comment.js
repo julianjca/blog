@@ -1,128 +1,130 @@
-// process.env.NODE_ENV = 'test';
-// let mongoose = require("mongoose");
-// let User = require('../models/user');
+process.env.NODE_ENV = 'test';
+let mongoose = require("mongoose");
+let Comment = require('../models/comment');
+let User = require('../models/user');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-// //Chai
-// var chai = require('chai');
-// var assert = chai.assert;
-// var expect = chai.expect;
-// var should = chai.should();
-// let chaiHttp = require('chai-http');
-// let server = require('../app.js');
-// chai.use(chaiHttp);
 
-// describe('Comments', () => {
-//   let id = '';
-//   beforeEach((done) => {
-//     User.create({
-//       name : "Tono",
-//       email : "tono@mail.com",
-//       password : '123456'
-//     })
-//     .then(data=>{
-//       // console.log(data);
-//       id = data._id;
-//       done();
-//     })
-//     .catch(err=>{
-//       console.log(err);
-//     });
-//   });
+//Chai
+var chai = require('chai');
+var assert = chai.assert;
+var expect = chai.expect;
+var should = chai.should();
+let chaiHttp = require('chai-http');
+let server = require('../app.js');
+chai.use(chaiHttp);
 
-//   describe('/GET showing all users', () => {
-//     it('it should GET all the users', (done) => {
-//       chai.request(server)
-//         .get('/users')
-//         .end((err, res) => {
-//             res.should.have.status(200);
-//             res.body.data.should.be.a('array');
-//             res.body.should.have.property('msg').eql('success finding users');
-//           done();
-//         });
-//     });
-//   });
+describe('Comments', () => {
+  let id = '';
+  let token1 = '';
+  const password = "123456";
 
-//   describe('/POST creating a user', () => {
-//     it('it should create a users', (done) => {
-//       let user = {
-//         name: "Jimmy",
-//         email: "jim@mail.com",
-//         password: 123456
-//     };
-//       chai.request(server)
-//         .post('/users/register')
-//         .send(user)
-//         .end((err, res) => {
-//           res.should.have.status(200);
-//           //check property
-//           res.body.data.should.have.property('name');
-//           res.body.data.should.have.property('email');
-//           res.body.data.should.have.property('password');
-//           res.body.should.have.property('msg').eql('success registering user');
+  beforeEach((done) => {
+    User.create({
+      name : "Tono",
+      email : "tono@mail.com",
+      password : password
+    })
+    .then(user=>{
+      User.findOne({
+        _id : user._id
+      })
+      .then(user2=>{
+        const isPasswordValid = bcrypt.compareSync(password,user2.password);
 
-//           //check result
-//           res.body.data.name.should.equal('Jimmy');
-//           res.body.data.email.should.equal('jim@mail.com');
-//           res.body.data.password.should.not.equal('123456');
-//           done();
-//         });
-//     });
-//   });
+        if(isPasswordValid){
+          jwt.sign({
+            email : user2.email,
+            name : user2.name,
+            id : user2._id
+          }, process.env.JWT_SECRET,( err,token )=>{
+            if( err ){
+              console.log(err);
+            }
+            else{
+              token1 = token;
+              Comment.create({
+                comment : "Hello World",
+                user : user._id
+              })
+              .then(data=>{
+                id = data._id;
+                done();
+              })
+              .catch(err=>{
+                console.log(err);
+              });
+            }
+          });
+        }
 
-//   describe('/POST logging in a user', () => {
-//     it('it should log in a users', (done) => {
-//       let user = {
-//         email : "tono@mail.com",
-//         password : '123456'
-//       };
-//       chai.request(server)
-//         .post('/users/login')
-//         .send(user)
-//         .end((err, res) => {
-//           // console.log('aaaaaaaa');
-//           res.should.have.status(200);
-//           //check property
-//           res.body.should.have.property('token');
-//           // res.body.should.have.property('msg').eql('login success');
-//           done();
-//         });
-//     });
-//   });
+        else{
+          console.log("haha");
+        }
+      })
 
-//   describe('/DELETE deleting a user', () => {
-//     it('it should delete a user by id', (done) => {
-//       chai.request(server)
-//         .delete(`/users/${id}`)
-//         .end((err, res) => {
-//           res.should.have.status(200);
-//           res.body.should.have.property('msg').eql(`success deleting user by id ${id}`);
-//           done();
-//         });
-//     });
-//   });
+      .catch(err=>{
+        console.log(err);
+      });
 
-//   describe('/PUT updating a user', () => {
-//     it('it should update a user by id', (done) => {
-//       const user = {
-//         name : "Bobi",
-//         email : "bobi@mail.com"
-//       };
-//       chai.request(server)
-//         .put(`/users/${id}`)
-//         .send(user)
-//         .end((err, res) => {
-//           res.should.have.status(200);
-//           res.body.should.have.property('msg').eql(`success updating user by id ${id}`);
-//           res.body.data.nModified.should.equal(1);
-//           res.body.data.ok.should.equal(1);
-//           done();
-//         });
-//     });
-//   });
+    })
+    .catch(err=>{
+      console.log(err);
+    });
+  });
 
-//   afterEach((done) => { //Before each test we empty the database
-//     User.remove({}, (err) => {
-//        done();
-//     });
-//   });
-// });
+  describe('/GET showing all comments', () => {
+    it('it should GET all the comments', (done) => {
+      chai.request(server)
+        .get('/comments')
+        .end((err, res) => {
+            res.should.have.status(200);
+            res.body.data.should.be.a('array');
+            res.body.should.have.property('msg').eql('success finding comments');
+          done();
+        });
+    });
+  });
+
+  describe('/POST creating an comment', () => {
+    it('it should create an comment', (done) => {
+      let comment = {
+        comment : "Hello World",
+    };
+      chai.request(server)
+        .post('/comments')
+        .send(comment)
+        .set('token', token1)
+        .end((err, res) => {
+          console.log(res.body);
+          res.should.have.status(200);
+          //check property
+          res.body.data.should.have.property('comment');
+          res.body.data.should.have.property('user');
+          res.body.should.have.property('msg').eql('success adding comment');
+          done();
+        });
+    });
+  });
+
+  describe('/DELETE deleting an comment', () => {
+    it('it should delete an comment by id', (done) => {
+      chai.request(server)
+        .delete(`/comments/${id}`)
+        .set('token', token1)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('msg').eql(`success deleting comment by id ${id}`);
+          done();
+        });
+    });
+  });
+
+
+  afterEach((done) => { //Before each test we empty the database
+    Comment.remove({}, (err) => {
+       done();
+    });
+  });
+});
