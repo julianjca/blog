@@ -44,7 +44,6 @@ describe('Articles', () => {
             }
             else{
               token1 = token;
-              console.log(token1,"=========> token")
 
               Article.create({
                 title : "Hello World",
@@ -101,7 +100,7 @@ describe('Articles', () => {
         .send(article)
         .set('token', token1)
         .end((err, res) => {
-          console.log(res.body);
+          // console.log(res.body);
           res.should.have.status(200);
           //check property
           res.body.data.should.have.property('title');
@@ -137,7 +136,7 @@ describe('Articles', () => {
         .send(article)
         .set('token', token1)
         .end((err, res) => {
-          console.log(res.body);
+          // console.log(res.body);
           res.should.have.status(200);
           res.body.should.have.property('msg').eql(`success updating article by id ${id}`);
           res.body.data.nModified.should.equal(1);

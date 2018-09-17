@@ -20,7 +20,6 @@ describe('Users', () => {
       password : '123456'
     })
     .then(data=>{
-      // console.log(data);
       id = data._id;
       done();
     })
@@ -79,11 +78,10 @@ describe('Users', () => {
         .post('/users/login')
         .send(user)
         .end((err, res) => {
-          // console.log('aaaaaaaa');
           res.should.have.status(200);
           //check property
           res.body.should.have.property('token');
-          // res.body.should.have.property('msg').eql('login success');
+          res.body.should.have.property('msg').eql('login success');
           done();
         });
     });

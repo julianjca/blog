@@ -59,7 +59,6 @@ module.exports = {
   },
 
   update : function(req,res){
-    console.log(req.body);
     Article.findOne({
       _id : req.params.id
     })

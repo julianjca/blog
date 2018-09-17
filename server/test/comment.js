@@ -97,7 +97,7 @@ describe('Comments', () => {
         .send(comment)
         .set('token', token1)
         .end((err, res) => {
-          console.log(res.body);
+          // console.log(res.body);
           res.should.have.status(200);
           //check property
           res.body.data.should.have.property('comment');
