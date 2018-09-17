@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const User = require('./user');
+
 
 const commentSchema = new Schema({
     comment:{
@@ -11,6 +13,13 @@ const commentSchema = new Schema({
     }
 },{
     timestamps: true
+});
+
+commentSchema.pre('remove', function(next) {
+    // User.remove({ person: this._id }, next);
+    User.update({ _id: this.user }, { "$pull": { "comments": this._id }},function(err, obj) {
+        next();
+    });
 });
 
 const Comment = mongoose.model('Comment', commentSchema);

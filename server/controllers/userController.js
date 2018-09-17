@@ -65,6 +65,9 @@ module.exports = {
 
   findAll : function(req,res){
     User.find({})
+    .populate('articles')
+    .populate('comments')
+    .exec()
     .then(data=>{
       res.status( 200 ).json({
         msg : 'success finding users',
@@ -119,7 +122,7 @@ module.exports = {
           msg : "failed updating user",
           err : err
         });
-      })
+      });
     })
     .catch(err=>{
       res.status(500).json({
