@@ -76,6 +76,24 @@ module.exports = {
         msg : "failed finding user",
         err : err
       });
+    });
+  },
+
+  remove : function(req,res){
+    User.deleteOne({
+      _id : req.params.id
     })
+    .then(data=>{
+      res.status( 200 ).json({
+        msg : `success deleting user by id ${req.params.id}`,
+        data : data
+      });
+    })
+    .catch(err=>{
+      res.status(500).json({
+        msg : "failed deleting user",
+        err : err
+      });
+    });
   }
 };

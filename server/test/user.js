@@ -12,6 +12,7 @@ let server = require('../app.js');
 chai.use(chaiHttp);
 
 describe('Users', () => {
+  let id = '';
   beforeEach((done) => {
     User.create({
       name : "Tono",
@@ -19,7 +20,8 @@ describe('Users', () => {
       password : '123456'
     })
     .then(data=>{
-      console.log('masukkkk');
+      // console.log(data);
+      id = data._id;
       done();
     })
     .catch(err=>{
@@ -87,6 +89,17 @@ describe('Users', () => {
     });
   });
 
+  describe('/DELETE deleting a user', () => {
+    it('it should delete a user by id', (done) => {
+      chai.request(server)
+        .delete(`/users/${id}`)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('msg').eql(`success deleting user by id ${id}`);
+          done();
+        });
+    });
+  });
 
   afterEach((done) => { //Before each test we empty the database
     User.remove({}, (err) => {
