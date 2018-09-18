@@ -18,7 +18,7 @@
         <SideBar :blogs="blogs" :loginStatus="isLogin"></SideBar>
       </div>
       <div class="page">
-        <router-view :loginStatus = "isLogin"/>
+        <router-view @updateBlog="fetchBlog" :loginStatus = "isLogin"/>
       </div>
     </div>
 
@@ -66,10 +66,25 @@ export default {
         .catch(err => {
           console.error('error', err)
         })
+    },
+
+    fetchBlog () {
+      let self = this
+      axios({
+        method: `GET`,
+        url: `${this.baseUrl}articles`
+      })
+        .then(response => {
+          self.blogs = response.data.data
+        })
+        .catch(error => {
+          console.error(error)
+        })
     }
   },
 
   created () {
+    console.log('woeeeeeeeeee')
     const token = localStorage.getItem('token')
     let self = this
     axios({
@@ -87,7 +102,6 @@ export default {
       .catch(err => {
         console.log(err)
       })
-
     axios({
       method: `GET`,
       url: `${this.baseUrl}articles`

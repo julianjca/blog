@@ -19,7 +19,7 @@ export default {
   border: 1px solid black;
   padding: 3% 3%;
   margin-bottom: 20px;
-  width: 60%;
+  width: 40%;
   margin-left: auto;
   margin-right: auto;
 }

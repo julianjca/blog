@@ -20,6 +20,7 @@ export default {
   },
   methods: {
     addBlogPost () {
+      let self = this
       const token = localStorage.getItem('token')
       axios({
         method: 'post',
@@ -33,6 +34,10 @@ export default {
         }
       })
         .then(response => {
+          self.$emit('updateBlog', {
+            title: this.title,
+            body: this.body
+          })
           this.$router.push('/')
         })
         .catch(error => {

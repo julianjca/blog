@@ -146,4 +146,11 @@ h3 {
   margin-right: auto;
   text-align: center;
 }
+
+p {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: justify;
+}
 </style>

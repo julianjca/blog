@@ -20,10 +20,15 @@ export default {
   },
   methods: {
     createPost () {
-      this.$router.push('create')
+      this.$router.push('/create')
     },
     callBlog (id) {
       this.$router.push({ name: 'blog', params: { id: id } })
+    }
+  },
+  watch: {
+    blogs () {
+      console.log('hehehe')
     }
   }
 }
