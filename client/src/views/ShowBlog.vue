@@ -8,12 +8,16 @@
       <br>
       <button @click="addComment">Submit</button>
     </div>
+    <div>
+      <Comment v-for="com in comments" :key="com._id" :singleComment="com"></Comment>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import SideBar from '@/components/SideBar.vue'
+import Comment from '@/components/Comment.vue'
 
 export default {
   name: 'ViewBlog',
@@ -27,7 +31,8 @@ export default {
     }
   },
   components: {
-    SideBar
+    SideBar,
+    Comment
   },
   methods: {
     addComment () {
@@ -71,7 +76,7 @@ export default {
       url: `${this.baseUrl}articles/${this.id}`
     })
       .then(response => {
-        console.log(response.data.data)
+        console.log(response.data.data[0])
 
         self.blog = response.data.data[0]
         self.comments = response.data.data[0].comments

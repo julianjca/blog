@@ -105,7 +105,7 @@ module.exports = {
 
   findAll : function(req,res){
     Comment.find({})
-    .populate('users')
+    .populate('user')
     .exec()
     .then(data=>{
       res.status( 200 ).json({

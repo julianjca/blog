@@ -93,7 +93,14 @@ module.exports = {
 
   findAll : function(req,res){
     Article.find({})
-    .populate('comments')
+    .populate({
+      path :'comments',
+      model :'Comment',
+      populate :{
+        path : 'user',
+        model : 'User'
+      }
+    })
     .populate('user')
     .exec()
     .then(data=>{
@@ -114,10 +121,18 @@ module.exports = {
     Article.find({
       _id : req.params.id
     })
-    .populate('comments')
+    .populate({
+      path :'comments',
+      model :'Comment',
+      populate :{
+        path : 'user',
+        model : 'User'
+      }
+    })
     .populate('user')
     .exec()
     .then(data=>{
+      console.log(data);
       res.status( 200 ).json({
         msg : 'success finding aricle',
         data : data
