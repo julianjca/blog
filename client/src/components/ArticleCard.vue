@@ -9,13 +9,18 @@
 <script>
 export default {
   name: 'ArticleCard',
-  props: ['blog']
+  props: ['blog'],
+  data () {
+    return {
+      id: this.blog._id
+    }
+  }
 }
 </script>
 
 <style>
 .card {
-  width: 500px;
+  width: 600px;
   min-height: 200px;
   border: 2px solid black;
   margin-left: auto;

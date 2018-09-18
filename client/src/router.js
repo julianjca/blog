@@ -48,6 +48,12 @@ export default new Router({
         guard(to, from, next)
       },
       component: () => import(/* webpackChunkName: "about" */ './views/CreatePost.vue')
+    },
+    {
+      path: '/blog/:id',
+      name: 'blog',
+      props: true,
+      component: () => import(/* webpackChunkName: "about" */ './views/ShowBlog.vue')
     }
   ]
 })

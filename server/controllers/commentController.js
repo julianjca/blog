@@ -1,6 +1,7 @@
 const Comment = require('../models/comment');
 const mongodb = require('mongodb');
 const User = require('../models/user');
+const Article = require('../models/article');
 
 
 module.exports = {
@@ -19,10 +20,22 @@ module.exports = {
         }
       })
       .then(response=>{
-        res.status(200).json({
-          msg : "success adding comment",
-          data : data
-        });
+        Article.updateOne({
+          _id : req.body.postId
+        },{
+          $push : {
+            comments : data._id
+          }
+        })
+        .then(response=>{
+          res.status(200).json({
+            msg : "success adding comment",
+            data : data
+          });
+        })
+        .catch(err=>{
+          console.log(err);
+        })
       })
       .catch(err=>{
         res.status(500).json({

@@ -109,4 +109,25 @@ module.exports = {
       });
     });
   },
+
+  findOne : function(req,res){
+    Article.find({
+      _id : req.params.id
+    })
+    .populate('comments')
+    .populate('user')
+    .exec()
+    .then(data=>{
+      res.status( 200 ).json({
+        msg : 'success finding aricle',
+        data : data
+      });
+    })
+    .catch(err=>{
+      res.status(500).json({
+        msg : "failed finding article",
+        err : err
+      });
+    });
+  },
 };

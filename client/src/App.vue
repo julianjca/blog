@@ -7,17 +7,28 @@
       <div class="menu">
         <router-link id="navi" to="/">Home</router-link>
         <router-link id = "navi" to="/about">About</router-link>
-        <a id="loginButton" @click="showLogin = true" v-if="!isLogin">Login</a>
+        <a id="loginButton" @click="showLogin = true" v-show="!isLogin">Login</a>
         <a id="loginButton" @click="logout" v-if="isLogin">Logout</a>
       </div>
     </div>
     <LoginModal @sending-login = "login" @close-login="showLogin = false" v-if="showLogin"></LoginModal>
-    <router-view :loginStatus = "isLogin"/>
+
+    <div class="page-template">
+      <div class="left-bar">
+        <SideBar :blogs="blogs" :loginStatus="isLogin"></SideBar>
+      </div>
+      <div class="page">
+        <router-view :loginStatus = "isLogin"/>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script>
 import LoginModal from '@/components/LoginModal.vue'
+import SideBar from '@/components/SideBar.vue'
+
 import axios from 'axios'
 export default {
   data () {
@@ -32,7 +43,8 @@ export default {
     }
   },
   components: {
-    LoginModal
+    LoginModal,
+    SideBar
   },
   methods: {
     logout () {
@@ -126,5 +138,10 @@ export default {
   background-color: #2c3e50;
   padding: 7px 15px;
   border-radius: 5px;
+}
+.page-template {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  margin-top: 100px;
 }
 </style>
