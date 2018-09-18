@@ -2,7 +2,7 @@
   <div class="sidebar">
     <h2>Article Lists</h2>
     <a v-for="(blog) in blogs" :key="blog._id">{{ blog.title }}</a>
-    <h3 v-if="logStatus">Create New Blog Post</h3>
+    <h3 v-if="logStatus" @click="createPost">Create New Blog Post</h3>
   </div>
 </template>
 
@@ -17,11 +17,16 @@ export default {
   },
   created () {
     this.isLogin = this.logStatus
+  },
+  methods: {
+    createPost () {
+      this.$router.push('create')
+    }
   }
 }
 </script>
 
-<style>
+<style scoped>
 .sidebar a {
   display: block;
   margin-bottom: 20px;
@@ -36,5 +41,6 @@ export default {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+  cursor: pointer;
 }
 </style>
