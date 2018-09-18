@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <h2>{{ blog.title }}</h2>
+    <h2 @click="sendId">{{ blog.title }}</h2>
     <h3>{{ blog.user.name }}</h3>
     <p>{{ blog.body }}</p>
   </div>
@@ -14,11 +14,16 @@ export default {
     return {
       id: this.blog._id
     }
+  },
+  methods: {
+    sendId () {
+      this.$emit('openingBlog', this.id)
+    }
   }
 }
 </script>
 
-<style>
+<style scoped>
 .card {
   width: 600px;
   min-height: 200px;
@@ -26,5 +31,9 @@ export default {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 50px;
+}
+
+h2 {
+  cursor: pointer;
 }
 </style>

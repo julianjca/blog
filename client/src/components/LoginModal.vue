@@ -32,13 +32,13 @@
         </div>
         <h3 @click="closeLogin">close</h3>
         <div class="text-center p-t-115">
-          <span class="txt1">
+          <!-- <span class="txt1">
             Don’t have an account?
           </span>
 
           <a class="txt2" href="#">
             Sign Up
-          </a>
+          </a> -->
         </div>
       </div>
     </div>

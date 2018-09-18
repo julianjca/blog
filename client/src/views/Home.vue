@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="articles">
-      <ArticleCard v-for="(blog,index) in blogs" :key="index" :blog="blog"></ArticleCard>
+      <ArticleCard v-for="(blog,index) in blogs" :key="index" :blog="blog" @openingBlog="openBlog"></ArticleCard>
     </div>
   </div>
 </template>
@@ -13,6 +13,11 @@ import SideBar from '@/components/SideBar.vue'
 
 export default {
   name: 'home',
+  methods: {
+    openBlog (id) {
+      this.$router.push({ name: 'blog', params: { id: id } })
+    }
+  },
   data () {
     return {
       blogs: [],
