@@ -130,5 +130,33 @@ module.exports = {
         err : err
       });
     });
+  },
+
+  auth : function(req,res){
+    const token = req.headers.token;
+    const secret = process.env.JWT_SECRET;
+    jwt.verify(token,secret,function(err, decoded) {
+      if(err){
+        res.status(401).json({
+          msg : 'you are not authorized'
+        });
+      }
+      else{
+        User.findOne({
+          email : decoded.email
+        })
+        .then(data=>{
+          res.status(200).json({
+            data
+          })
+        })
+        .catch(err=>{
+          res.status(401).json({
+            msg : 'you are not authenticated'
+          });
+        });
+
+      }
+    });
   }
 };

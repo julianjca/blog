@@ -94,6 +94,7 @@ module.exports = {
   findAll : function(req,res){
     Article.find({})
     .populate('comments')
+    .populate('user')
     .exec()
     .then(data=>{
       res.status( 200 ).json({
