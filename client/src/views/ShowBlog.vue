@@ -9,6 +9,7 @@
       <button @click="addComment">Submit</button>
     </div>
     <div>
+      <h3>List of Comments</h3>
       <Comment v-for="com in comments" :key="com._id" :singleComment="com"></Comment>
     </div>
   </div>
@@ -135,5 +136,14 @@ button {
   width: 20%;
   height: 40px;
   border-radius: 10px;
+}
+
+h3 {
+  padding-bottom: 20px;
+  border-bottom: solid 1px black;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 </style>
