@@ -18,7 +18,7 @@
         <SideBar :blogs="blogs" :loginStatus="isLogin"></SideBar>
       </div>
       <div class="page">
-        <router-view @updateBlog="fetchBlog" :loginStatus = "isLogin"/>
+        <router-view @updateBlog="fetchBlog" :idUser="userId" :loginStatus = "isLogin"  />
       </div>
     </div>
 
@@ -96,6 +96,7 @@ export default {
     })
       .then(response => {
         console.log(response)
+        localStorage.setItem('userId', response.data.data._id)
         self.userId = response.data.data._id
         self.isLogin = true
       })

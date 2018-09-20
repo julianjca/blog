@@ -3,13 +3,16 @@
     <h2 @click="sendId">{{ blog.title }}</h2>
     <h3>{{ blog.user.name }}</h3>
     <p>{{ blog.body }}</p>
+    <h3 v-if="userId===blog.user._id" @click="removeBlog(blog._id)">delete</h3>
+    <h3 v-if="userId===blog.user._id">update</h3>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'ArticleCard',
-  props: ['blog'],
+  props: ['blog', 'userId'],
   data () {
     return {
       id: this.blog._id
@@ -18,6 +21,22 @@ export default {
   methods: {
     sendId () {
       this.$emit('openingBlog', this.id)
+    },
+    removeBlog (id) {
+      let self = this
+      axios({
+        method: 'delete',
+        url: `http://localhost:3000/articles/${id}`,
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(response => {
+          self.$emit('requestNewData', id)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 }

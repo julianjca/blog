@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="articles">
-      <ArticleCard v-for="(blog,index) in blogs" :key="index" :blog="blog" @openingBlog="openBlog"></ArticleCard>
+      <ArticleCard v-for="(blog,index) in blogs" :key="index" :blog="blog" @openingBlog="openBlog" :userId = "idUser" @requestNewData="resetNewPage"></ArticleCard>
     </div>
   </div>
 </template>
@@ -16,6 +16,13 @@ export default {
   methods: {
     openBlog (id) {
       this.$router.push({ name: 'blog', params: { id: id } })
+    },
+    resetNewPage (id) {
+      for (let i = 0; i < this.blogs.length; i++) {
+        if (this.blogs[i]._id === id) {
+          this.blogs.splice(i, 1)
+        }
+      }
     }
   },
   data () {
@@ -25,6 +32,7 @@ export default {
       logStatus: false
     }
   },
+  props: ['idUser'],
   components: {
     ArticleCard,
     SideBar
@@ -45,6 +53,9 @@ export default {
   watch: {
     loginStatus () {
       this.logStatus = this.loginStatus
+    },
+    blogs () {
+      return this.blogs
     }
   }
 }
