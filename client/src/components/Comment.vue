@@ -2,14 +2,20 @@
   <div class="comment-section">
     <h3>{{singleComment.user.name}}</h3>
     <h5>{{singleComment.comment}}</h5>
+    <h3 v-if="userId===singleComment.user._id" @click="removeComment(singleComment._id)">delete</h3>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['singleComment'],
+  props: ['singleComment', 'userId'],
   data () {
     return {}
+  },
+  methods: {
+    removeComment (id) {
+      this.$emit('removeComment', id)
+    }
   }
 }
 </script>

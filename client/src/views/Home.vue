@@ -18,11 +18,23 @@ export default {
       this.$router.push({ name: 'blog', params: { id: id } })
     },
     resetNewPage (id) {
-      for (let i = 0; i < this.blogs.length; i++) {
-        if (this.blogs[i]._id === id) {
-          this.blogs.splice(i, 1)
-        }
-      }
+      // for (let i = 0; i < this.blogs.length; i++) {
+      //   if (this.blogs[i]._id === id) {
+      //     this.blogs.splice(i, 1)
+      //   }
+      // }
+      let self = this
+      axios({
+        method: `GET`,
+        url: `${this.baseUrl}articles`
+      })
+        .then(response => {
+          console.log(response)
+          self.blogs = response.data.data
+        })
+        .catch(error => {
+          console.error(error)
+        })
     }
   },
   data () {
@@ -53,9 +65,6 @@ export default {
   watch: {
     loginStatus () {
       this.logStatus = this.loginStatus
-    },
-    blogs () {
-      return this.blogs
     }
   }
 }

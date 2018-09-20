@@ -10,7 +10,7 @@
     </div>
     <div>
       <h3>List of Comments</h3>
-      <Comment v-for="com in comments" :key="com._id" :singleComment="com"></Comment>
+      <Comment v-for="com in comments" :key="com._id" :singleComment="com" :userId = "idUser" @removeComment = "removingComment"></Comment>
     </div>
   </div>
 </template>
@@ -22,7 +22,7 @@ import Comment from '@/components/Comment.vue'
 
 export default {
   name: 'ViewBlog',
-  props: ['id', 'loginStatus'],
+  props: ['id', 'loginStatus', 'idUser'],
   data () {
     return {
       baseUrl: `http://localhost:3000/`,
@@ -64,6 +64,36 @@ export default {
             .catch(err => {
               console.err(err)
             })
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    removingComment (id) {
+      let self = this
+      const token = localStorage.getItem('token')
+      axios({
+        method: 'DELETE',
+        url: `${this.baseUrl}comments/${id}`,
+        headers: {
+          token: token
+        }
+      })
+        .then(response => {
+          setTimeout(() => {
+            axios({
+              method: 'get',
+              url: `${this.baseUrl}articles/${this.id}`
+            })
+              .then(response => {
+                console.log(response.data.data[0].comments)
+                self.blog = response.data.data[0]
+                self.comments = response.data.data[0].comments
+              })
+              .catch(err => {
+                console.err(err)
+              })
+          }, 1000)
         })
         .catch(err => {
           console.log(err)

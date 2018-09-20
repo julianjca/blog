@@ -32,7 +32,9 @@ export default {
         }
       })
         .then(response => {
-          self.$emit('requestNewData', id)
+          setTimeout(() => {
+            self.$emit('requestNewData', id)
+          }, 500)
         })
         .catch(err => {
           console.log(err)
