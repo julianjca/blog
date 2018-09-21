@@ -2,7 +2,7 @@
   <div id="app">
     <div id="nav">
       <div>
-        <h1>BLOG</h1>
+        <h1 @click="goToHome" id="logo">BLOG</h1>
       </div>
       <div class="menu">
         <router-link id="navi" to="/">Home</router-link>
@@ -47,6 +47,9 @@ export default {
     SideBar
   },
   methods: {
+    goToHome () {
+      this.$router.push('/')
+    },
     logout () {
       localStorage.removeItem('token')
       this.isLogin = false
@@ -158,5 +161,9 @@ export default {
   display: grid;
   grid-template-columns: 1fr 3fr;
   margin-top: 100px;
+}
+
+#logo {
+  cursor: pointer;
 }
 </style>

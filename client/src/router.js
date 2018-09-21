@@ -54,6 +54,12 @@ export default new Router({
       name: 'blog',
       props: true,
       component: () => import(/* webpackChunkName: "about" */ './views/ShowBlog.vue')
+    },
+    {
+      path: '/update/:id',
+      name: 'update',
+      props: true,
+      component: () => import(/* webpackChunkName: "about" */ './views/EditPost.vue')
     }
   ]
 })
