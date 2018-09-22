@@ -15,7 +15,8 @@ export default {
   props: ['blog', 'userId'],
   data () {
     return {
-      id: this.blog._id
+      id: this.blog._id,
+      idUser: ''
     }
   },
   methods: {
@@ -42,6 +43,11 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    }
+  },
+  watch: {
+    userId () {
+      this.idUser = this.userId
     }
   }
 }

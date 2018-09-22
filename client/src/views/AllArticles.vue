@@ -1,8 +1,7 @@
 <template>
-  <div class="home">
-      <!-- <ArticleCard v-for="(blog,index) in blogs" :key="index" :blog="blog" @openingBlog="openBlog" :userId = "idUser" @requestNewData="resetNewPage"></ArticleCard> -->
-      <router-view :userId = "idUser" :loginStatus="loginStatus"></router-view>
-  </div>
+    <div class="articles">
+      <ArticleCard v-for="(blog,index) in blogs" :key="index" :blog="blog" @openingBlog="openBlog" :userId="idUser" @requestNewData="resetNewPage"></ArticleCard>
+    </div>
 </template>
 
 <script>
@@ -11,7 +10,7 @@ import ArticleCard from '@/components/ArticleCard.vue'
 import SideBar from '@/components/SideBar.vue'
 
 export default {
-  name: 'home',
+  name: 'all-article',
   methods: {
     openBlog (id) {
       this.$router.push({ name: 'blog', params: { id: id } })
@@ -40,10 +39,11 @@ export default {
     return {
       blogs: [],
       baseUrl: 'http://localhost:3000/',
-      logStatus: false
+      logStatus: false,
+      idUser: ''
     }
   },
-  props: ['idUser', 'loginStatus'],
+  props: ['userId', 'loginStatus'],
   components: {
     ArticleCard,
     SideBar
@@ -63,7 +63,11 @@ export default {
   },
   watch: {
     loginStatus () {
+      this.idUser = this.userId
       this.logStatus = this.loginStatus
+    },
+    userId () {
+      this.idUser = this.userId
     }
   }
 }

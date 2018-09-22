@@ -10,7 +10,7 @@
     </div>
     <div>
       <h3>List of Comments</h3>
-      <Comment v-for="com in comments" :key="com._id" :singleComment="com" :userId = "idUser" @removeComment = "removingComment"></Comment>
+      <Comment v-for="com in comments" :key="com._id" :singleComment="com" :userId = "userId" @removeComment = "removingComment"></Comment>
     </div>
   </div>
 </template>
@@ -22,7 +22,7 @@ import Comment from '@/components/Comment.vue'
 
 export default {
   name: 'ViewBlog',
-  props: ['id', 'loginStatus', 'idUser'],
+  props: ['id', 'loginStatus', 'userId'],
   data () {
     return {
       baseUrl: `http://localhost:3000/`,
