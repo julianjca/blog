@@ -1,6 +1,6 @@
 <template>
     <div class="articles">
-      <ArticleCard v-for="(blog,index) in blogs" :key="index" :blog="blog" @openingBlog="openBlog" :userId="idUser" @requestNewData="resetNewPage"></ArticleCard>
+      <ArticleCard v-for="(blog,index) in blogs" :key="index" :blog="blog" @openingBlog="openBlog" :userId="userId" @requestNewData="resetNewPage"></ArticleCard>
     </div>
 </template>
 

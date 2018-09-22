@@ -1,7 +1,7 @@
 <template>
   <div class="home">
       <!-- <ArticleCard v-for="(blog,index) in blogs" :key="index" :blog="blog" @openingBlog="openBlog" :userId = "idUser" @requestNewData="resetNewPage"></ArticleCard> -->
-      <router-view :userId = "idUser" :loginStatus="loginStatus"></router-view>
+      <router-view :userId = "idUser" :loginStatus="loginStatus" @update-blog="updateBlog"></router-view>
   </div>
 </template>
 
@@ -34,6 +34,9 @@ export default {
         .catch(error => {
           console.error(error)
         })
+    },
+    updateBlog () {
+      this.$emit('update-blog')
     }
   },
   data () {

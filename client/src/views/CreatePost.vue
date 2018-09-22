@@ -34,7 +34,8 @@ export default {
         }
       })
         .then(response => {
-          self.$emit('updateBlog', {
+          console.log(response)
+          self.$emit('update-blog', {
             title: this.title,
             body: this.body
           })

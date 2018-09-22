@@ -18,7 +18,7 @@
         <SideBar :blogs="blogs" :loginStatus="isLogin"></SideBar>
       </div>
       <div class="page">
-        <router-view @updateBlog="fetchBlog" :idUser="userId" :loginStatus = "isLogin"  />
+        <router-view @update-blog="fetchBlog" :idUser="userId" :loginStatus = "isLogin"  />
       </div>
     </div>
 
@@ -52,6 +52,7 @@ export default {
     },
     logout () {
       localStorage.removeItem('token')
+      this.userId = ''
       this.isLogin = false
     },
     login (data) {
@@ -65,6 +66,25 @@ export default {
         .then(response => {
           localStorage.setItem('token', response.data.token)
           self.isLogin = true
+          const token = response.data.token
+          setTimeout(() => {
+            axios({
+              method: 'GET',
+              url: `${this.baseUrl}users/auth`,
+              headers: {
+                token: token
+              }
+            })
+              .then(response => {
+                console.log(response)
+                localStorage.setItem('userId', response.data.data._id)
+                self.userId = response.data.data._id
+                self.isLogin = true
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }, 200)
         })
         .catch(err => {
           console.error('error', err)
@@ -72,12 +92,14 @@ export default {
     },
 
     fetchBlog () {
+      console.log('masuk fetch blog')
       let self = this
       axios({
         method: `GET`,
         url: `${this.baseUrl}articles`
       })
         .then(response => {
+          console.log('ini respon fetch blog', response.data.data)
           self.blogs = response.data.data
         })
         .catch(error => {
