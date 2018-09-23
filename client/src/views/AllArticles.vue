@@ -29,6 +29,7 @@ export default {
         .then(response => {
           console.log(response)
           self.blogs = response.data.data
+          self.$emit('finish-delete-data')
         })
         .catch(error => {
           console.error(error)
@@ -38,7 +39,7 @@ export default {
   data () {
     return {
       blogs: [],
-      baseUrl: 'http://localhost:3000/',
+      baseUrl: 'http://35.240.195.45/',
       logStatus: false,
       idUser: ''
     }

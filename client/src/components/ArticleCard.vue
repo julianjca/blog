@@ -30,7 +30,7 @@ export default {
       let self = this
       axios({
         method: 'delete',
-        url: `http://localhost:3000/articles/${id}`,
+        url: `http://35.240.195.45/articles/${id}`,
         headers: {
           token: localStorage.getItem('token')
         }

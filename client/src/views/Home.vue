@@ -1,7 +1,7 @@
 <template>
   <div class="home">
       <!-- <ArticleCard v-for="(blog,index) in blogs" :key="index" :blog="blog" @openingBlog="openBlog" :userId = "idUser" @requestNewData="resetNewPage"></ArticleCard> -->
-      <router-view :userId = "idUser" :loginStatus="loginStatus" @update-blog="updateBlog"></router-view>
+      <router-view :userId = "idUser" :loginStatus="loginStatus" @update-blog="updateBlog" @finish-delete-data="updateBlog"></router-view>
   </div>
 </template>
 
@@ -36,13 +36,14 @@ export default {
         })
     },
     updateBlog () {
+      console.log('mashok')
       this.$emit('update-blog')
     }
   },
   data () {
     return {
       blogs: [],
-      baseUrl: 'http://localhost:3000/',
+      baseUrl: 'http://35.240.195.45/',
       logStatus: false
     }
   },

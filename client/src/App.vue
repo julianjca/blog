@@ -38,7 +38,7 @@ export default {
       showLogin: false,
       isLogin: false,
       userId: '',
-      baseUrl: 'http://localhost:3000/',
+      baseUrl: 'http://35.240.195.45/',
       blogs: []
     }
   },

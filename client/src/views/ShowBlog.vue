@@ -25,7 +25,7 @@ export default {
   props: ['id', 'loginStatus', 'userId'],
   data () {
     return {
-      baseUrl: `http://localhost:3000/`,
+      baseUrl: `http://35.240.195.45/`,
       blog: [],
       comment: '',
       comments: []

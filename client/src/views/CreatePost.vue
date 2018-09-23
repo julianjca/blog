@@ -15,7 +15,7 @@ export default {
     return {
       body: '',
       title: '',
-      baseUrl: `http://localhost:3000/`
+      baseUrl: `http://35.240.195.45/`
     }
   },
   methods: {

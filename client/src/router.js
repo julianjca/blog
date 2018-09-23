@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import axios from 'axios'
-const baseUrl = `http://localhost:3000/`
+const baseUrl = `http://35.240.195.45/`
 
 Vue.use(Router)
 const guard = function (to, from, next) {

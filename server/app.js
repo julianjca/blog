@@ -25,10 +25,10 @@ if(process.env.NODE_ENV === 'test'){
   url = `mongodb://localhost:27017/test-blog-db`;
 }
 else{
-  // url = `mongodb://admin:admin1234@ds159772.mlab.com:59772/blog`;
+  // url = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@ds159772.mlab.com:59772/blog`;
   url = `mongodb://localhost:27017/blog-db`;
-}
 
+}
 mongoose.connect(url,{ useNewUrlParser: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
